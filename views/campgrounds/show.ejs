@@ -1,0 +1,58 @@
+<% include ../partials/header.ejs %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            Yelp Camp<br><br>
+            <div class="list-group">
+                <a href="#" class="list-group-item active">
+                  Category 1
+                </a>
+                <a href="#" class="list-group-item">Category 2</a>
+                <a href="#" class="list-group-item">Category 3</a>
+            </div>
+            <div style="width: 100%; border: none;">
+                <iframe style="width: 100%; border: none;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3557.7453576377607!2d75.81729881488306!3d26.911575483128065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db6b03af9295f%3A0x5bb4333133c6968!2sAlbert%20Hall%20Museum!5e0!3m2!1sen!2sin!4v1583052931274!5m2!1sen!2sin" ></iframe>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="thumbnail">
+                <img class="img-responsive" src="<%= campground.image %>">
+                <div class="caption-full">
+                    <h4 class="pull-right">$9.00/night</h4>
+                    <h4><a><%= campground.title %></a></h4><br>
+                    <p><%= campground.desc %></p>
+                    <p> <em>Submitted by: <%= campground.author.username %></em> </p>
+                    <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
+                        <a href='/campgrounds/<%= campground._id %>/edit'><button class="btn btn-xs btn-warning">Edit</button></a>
+                        <form id="delete-form" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-xs btn-danger">Delete</button>
+                        </form> 
+                    <% } %>
+                </div>
+            </div>
+            <div class="well">
+                <div class="text-right">
+                    <a class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new" style="margin-top: 5px;">Leave a Review</a>
+                </div><br>
+                <% campground.comments.forEach(function(cmnt){ %>
+                <div class="row">
+                    <div class="col-md-12">
+                        <strong><%= cmnt.author.username %></strong>
+                        <span class="pull-right">10 days ago</span>
+                        <p>
+                            <%= cmnt.text %>
+                        </p>
+                    </div>
+                </div>
+                <% }) %>
+                <a href="/campgrounds" style="margin-top: 10px;">Go to the Main Page</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include ../partials/footer.ejs %>
+
+
+
